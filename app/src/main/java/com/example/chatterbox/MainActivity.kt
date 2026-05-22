@@ -1,28 +1,33 @@
-name: Android Build
+package com.example.chatterbox
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.example.chatterbox.ui.navigation.NavGraph
+import com.example.chatterbox.ui.theme.ChatterBoxTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 1
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+@AndroidEntryPoint
+class MainActivity() : ComponentActivity() {
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
+    private val viewModel by viewModels<CBViewModel>()
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug --no-daemon --parallel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        installSplashScreen()
+        setContent {
+            ChatterBoxTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    NavGraph(vm = viewModel)
+                }
+            }
+        }
+    }
+}
