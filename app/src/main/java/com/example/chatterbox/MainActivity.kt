@@ -14,20 +14,20 @@ import com.example.chatterbox.ui.theme.ChatterBoxTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity() : ComponentActivity() {
+class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<CBViewModel>()
+    private val viewModel by viewModels<CBViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        installSplashScreen()
-        setContent {
-            ChatterBoxTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    NavGraph(vm = viewModel)
-                }
-            }
-        }
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        installSplashScreen()
+        setContent {
+            ChatterBoxTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    NavGraph(vm = viewModel)
+                }
+            }
+        }
+    }
 }
